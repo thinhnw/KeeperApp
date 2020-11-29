@@ -1,11 +1,19 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function CreateArea() {
+export default function CreateArea(props) {
 	
-	const [ note, setNote ] = React.useState({
-		title: "",
-		content: ""
-	});
+	function emptyNote() {
+		
+		const newId = uuidv4();
+		return {
+			key: newId, 
+			title: "",
+			content: "", 
+			id: newId
+		}
+	}
+	const [ note, setNote ] = React.useState(emptyNote());
 	function handleChange(event) {
 
 		const { name, value } = event.target;
@@ -16,7 +24,8 @@ export default function CreateArea() {
 	}
 	function handleSubmit(event) {
 		
-		
+		props.onCreate(note);	
+		setNote(emptyNote());
 		event.preventDefault();
 	}
 
